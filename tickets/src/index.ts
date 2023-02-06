@@ -10,13 +10,14 @@ function start() {
     throw new Error('JWT_KEY must be defined');
   }
 
-  // FIXME
-  const SRVNAME = 'tickets-mongo-cluster-ip-service:27017';
-  const DBNAME = 'tickets';
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI must be defined');
+  }
+
   const APPPORT = 3000;
 
   mongoose
-    .connect(`mongodb://${SRVNAME}/${DBNAME}`)
+    .connect(process.env.MONGO_URI)
     .then(() => {
       console.log(`Connected to tickets mongo`);
       server.listen(APPPORT, () => console.log(`Listening on port ${APPPORT}`));
