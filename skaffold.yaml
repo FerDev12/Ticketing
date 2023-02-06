@@ -1,0 +1,53 @@
+# SKAFFOLD IS FOR DEVELOPMENT
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: ticketing
+build:
+  local:
+    # Do not push to docker hub
+    push: false
+  artifacts:
+    - image: ferdev12/auth-service
+      context: auth
+      docker:
+        # Use development Dockerfile for skaffold
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          # Sync changes to the corresponding path
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: ferdev12/tickets-service
+      context: tickets
+      docker:
+        # Use development Dockerfile for skaffold
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          # Sync changes to the corresponding path
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: ferdev12/client
+      context: client
+      docker:
+        # Use development Dockerfile for skaffold
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          # Sync changes to the corresponding path
+          - src: '**/*.ts'
+            dest: .
+deploy:
+  kubectl:
+    manifests:
+      # Ingress
+      - k8s/ingress-service.yaml
+      # Auth
+      - k8s/auth-depl.yaml
+      - k8s/auth-mongo-depl.yaml
+      # Tickets
+      - k8s/tickets-depl.yaml
+      - k8s/tickets-mongo-depl.yaml
+      # Client
+      - k8s/client-depl.yaml
