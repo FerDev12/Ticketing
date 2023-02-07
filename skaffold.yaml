@@ -43,6 +43,8 @@ deploy:
     manifests:
       # Ingress
       - k8s/ingress-service.yaml
+      # NATS
+      - k8s/nats-depl.yaml
       # Auth
       - k8s/auth-depl.yaml
       - k8s/auth-mongo-depl.yaml
