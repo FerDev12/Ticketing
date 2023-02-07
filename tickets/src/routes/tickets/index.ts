@@ -1,19 +1,21 @@
+import { Router } from 'express';
 import { requireAuth, validateRequest } from '@fertickets/common-2';
-import { Request, Response, Router } from 'express';
+import {
+  getAllTicketsController,
+  newTicketController,
+} from '../../controllers';
 import { newTicketValidators } from '../../middleware/index';
+import { ticketByIdRouter } from './ticketById';
 
 const router = Router();
 
 router
   .route('/')
   // Get all tickets
-  .get((req, res) => res.sendStatus(200))
+  .get(getAllTicketsController)
   // New ticket
-  .post(
-    requireAuth,
-    newTicketValidators,
-    validateRequest,
-    (req: Request, res: Response) => res.sendStatus(201)
-  );
+  .post(requireAuth, validateRequest(newTicketValidators), newTicketController);
+
+router.use(ticketByIdRouter);
 
 export { router as ticketsRouter };

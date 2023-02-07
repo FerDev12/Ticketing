@@ -39,7 +39,10 @@ global.signin = () => {
   }
 
   // build a JWT payload. {id, email}
-  const payload = { id: '1234', email: 'test@test.com' };
+  const payload = {
+    id: Math.random().toString(),
+    email: `${Math.random().toString()}@test.com`,
+  };
 
   // Create the JWT
   const token = jwt.sign(payload, process.env.JWT_KEY);
