@@ -59,3 +59,5 @@ ticketSchema.static(
 );
 
 const Ticket = model<ITicket, ITicketModel>('Ticket', ticketSchema);
+
+export { Ticket };

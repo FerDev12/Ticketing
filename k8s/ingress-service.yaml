@@ -21,7 +21,7 @@ spec:
                 port:
                   number: 3000
           - pathType: Prefix
-            path: '/api/users/?(.*)'
+            path: '/api/tickets/?(.*)'
             backend:
               service:
                 name: tickets-cluster-ip-service
